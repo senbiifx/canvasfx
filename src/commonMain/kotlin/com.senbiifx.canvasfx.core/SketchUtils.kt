@@ -1,6 +1,10 @@
 package com.senbiifx.canvasfx.core
 
+import kotlin.jvm.Synchronized
+import kotlin.math.E
 import kotlin.math.PI
+import kotlin.math.log
+import kotlin.math.sqrt
 import kotlin.random.Random
 
 fun noise(x: Double) = Noise.noise(x, 0.0, 0.0)
@@ -19,10 +23,4 @@ fun Int.toRadians() = this.toDouble().toRadians()
 fun Double.toDegrees() = this * 180 / PI
 fun Int.toDegrees() = this.toDouble().toDegrees()
 
-
-//TODO: Move to Sketch Context
-//fun createGraphics(width: Double, height: Double, sketchable: Sketchable): WritableImage {
-//    val canvas = Canvas(width, height)
-//    sketchable.invoke(canvas.graphicsContext2D)
-//    return canvas.snapshot(null, null)
-//}
+fun randomGaussian(mean: Double, sd: Double = 1.0) = nextGaussian() * mean + sd

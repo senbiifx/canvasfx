@@ -25,7 +25,7 @@ class DesktopRunner : Application(){
 }
 
 fun show(w: Double, h: Double, sketchConstructor: SketchConstructor){
-    canvasJavaFx = DesktopAnimationCanvas(sketchConstructor.invoke(w, h))
+    canvasJavaFx = DesktopAnimationCanvas(sketchConstructor, w, h)
     Application.launch(DesktopRunner::class.java)
 }
 
