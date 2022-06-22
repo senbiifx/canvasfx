@@ -11,6 +11,10 @@ class DesktopSketchContext(val g: GraphicsContext): SketchContext {
         get() = javafxColorToCoreColor(g.fill as JavafxColor)
         set(value) { g.fill = coreColorToJavaFxColor(value) }
 
+    override var stroke: Color
+        get() = javafxColorToCoreColor(g.stroke as JavafxColor)
+        set(value) { g.stroke = coreColorToJavaFxColor(value) }
+
     override val pixelWriter: PixelWriter = DesktopPixelWriter(g.pixelWriter)
 
     private fun javafxColorToCoreColor(javafxColor: JavafxColor) =
@@ -39,12 +43,20 @@ class DesktopSketchContext(val g: GraphicsContext): SketchContext {
         g.fillText(var1, var2, var4)
     }
 
+    override fun strokeLine(x1: Double, y1: Double, x2: Double, y2: Double) {
+        g.strokeLine(x1, y1, x2, y2)
+    }
+
     override fun translate(x: Double, y: Double) {
         g.translate(x, y)
     }
 
     override fun rotate(degrees: Double) {
         g.rotate(degrees)
+    }
+
+    override fun scale(x: Double, y: Double) {
+        g.scale(x, y)
     }
 
     override fun createGraphics(width: Double, height: Double, sketchFunction: SketchFunction): WritableImage {

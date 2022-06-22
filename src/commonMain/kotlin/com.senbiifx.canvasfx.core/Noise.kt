@@ -14,8 +14,8 @@ internal object Noise {
     private const val perlin_amp_falloff = 0.5f
     private var perlin_TWOPI = 0
     private var perlin_PI = 0
-    private var perlin_cosTable: DoubleArray = DoubleArray(0, {i ->  0.0})
-    private var perlin: DoubleArray = DoubleArray(0, {i ->  0.0})
+    private var perlin_cosTable: DoubleArray? = null
+    private var perlin: DoubleArray? = null
     private val sinLUT: DoubleArray
     private val cosLUT: DoubleArray
     private const val SINCOS_PRECISION = 0.5
@@ -29,7 +29,7 @@ internal object Noise {
         if (perlin == null) {
             perlin = DoubleArray(PERLIN_SIZE + 1)
             for (i in 0 until PERLIN_SIZE + 1) {
-                perlin[i] = perlinRandom.nextDouble()
+                perlin!![i] = perlinRandom.nextDouble()
             }
             perlin_cosTable = cosLUT
             perlin_PI = SINCOS_LENGTH
@@ -56,16 +56,16 @@ internal object Noise {
             var of = xi + (yi shl PERLIN_YWRAPB) + (zi shl PERLIN_ZWRAPB)
             rxf = noise_fsc(xf)
             ryf = noise_fsc(yf)
-            n1 = perlin[of and PERLIN_SIZE]
-            n1 += rxf * (perlin[of + 1 and PERLIN_SIZE] - n1)
-            n2 = perlin[of + PERLIN_YWRAP and PERLIN_SIZE]
-            n2 += rxf * (perlin[of + PERLIN_YWRAP + 1 and PERLIN_SIZE] - n2)
+            n1 = perlin!![of and PERLIN_SIZE]
+            n1 += rxf * (perlin!![of + 1 and PERLIN_SIZE] - n1)
+            n2 = perlin!![of + PERLIN_YWRAP and PERLIN_SIZE]
+            n2 += rxf * (perlin!![of + PERLIN_YWRAP + 1 and PERLIN_SIZE] - n2)
             n1 += ryf * (n2 - n1)
             of += PERLIN_ZWRAP
-            n2 = perlin[of and PERLIN_SIZE]
-            n2 += rxf * (perlin[of + 1 and PERLIN_SIZE] - n2)
-            n3 = perlin[of + PERLIN_YWRAP and PERLIN_SIZE]
-            n3 += rxf * (perlin[of + PERLIN_YWRAP + 1 and PERLIN_SIZE] - n3)
+            n2 = perlin!![of and PERLIN_SIZE]
+            n2 += rxf * (perlin!![of + 1 and PERLIN_SIZE] - n2)
+            n3 = perlin!![of + PERLIN_YWRAP and PERLIN_SIZE]
+            n3 += rxf * (perlin!![of + PERLIN_YWRAP + 1 and PERLIN_SIZE] - n3)
             n2 += ryf * (n3 - n2)
             n1 += noise_fsc(zf) * (n2 - n1)
             r += n1 * ampl
@@ -93,7 +93,7 @@ internal object Noise {
     }
 
     private fun noise_fsc(i: Double): Double {
-        return 0.5f * (1.0f - perlin_cosTable[(i * perlin_PI).toInt() % perlin_TWOPI])
+        return 0.5f * (1.0f - perlin_cosTable!![(i * perlin_PI).toInt() % perlin_TWOPI])
     }
 
     init {

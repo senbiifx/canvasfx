@@ -17,6 +17,13 @@ class WebSketchContext(val ctx: CanvasRenderingContext2D): SketchContext {
             ctx.fillStyle = coreColorToHtmlCanvasColor(value)
         }
 
+    override var stroke: Color
+        get() = color
+        set(value) {
+            color = value
+            ctx.strokeStyle = coreColorToHtmlCanvasColor(value)
+        }
+
     override val pixelWriter: PixelWriter = WebPixelWriter(ctx)
 
     override fun fillRect(var1: Double, var2: Double, var3: Double, var4: Double) {
@@ -27,7 +34,7 @@ class WebSketchContext(val ctx: CanvasRenderingContext2D): SketchContext {
         ctx.save()
         ctx.beginPath()
 
-        ctx.translate(x-w, y-h)
+        ctx.translate(x-w/2, y-h/2)
         ctx.scale(w, h)
         ctx.arc(1.0, 1.0, 0.5, 0.0, 2 * PI, false)
 
@@ -47,12 +54,24 @@ class WebSketchContext(val ctx: CanvasRenderingContext2D): SketchContext {
         ctx.fillText(var1, var2, var3)
     }
 
+    override fun strokeLine(x1: Double, y1: Double, x2: Double, y2: Double) {
+        ctx.save()
+        ctx.moveTo(x1, y1)
+        ctx.lineTo(x2, y2)
+        ctx.stroke()
+        ctx.restore()
+    }
+
     override fun translate(x: Double, y: Double) {
         ctx.translate(x, y)
     }
 
     override fun rotate(angle: Double) {
         ctx.rotate(angle.toRadians())
+    }
+
+    override fun scale(x: Double, y: Double) {
+        ctx.scale(x, y)
     }
 
     override fun createGraphics(width: Double, height: Double, sketchFunction: SketchFunction): WritableImage {
