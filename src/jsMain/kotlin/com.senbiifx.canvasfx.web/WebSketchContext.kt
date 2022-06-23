@@ -74,6 +74,18 @@ class WebSketchContext(val ctx: CanvasRenderingContext2D): SketchContext {
         ctx.scale(x, y)
     }
 
+    override fun beginPath() {
+        ctx.beginPath()
+    }
+
+    override fun closePath() {
+        ctx.closePath()
+    }
+
+    override fun bezierCurveTo(xc1: Double, yc1: Double, xc2: Double, yc2: Double, x1: Double, y1: Double) {
+        ctx.bezierCurveTo(xc1, yc1, xc2, yc2, x1, y1)
+    }
+
     override fun createGraphics(width: Double, height: Double, sketchFunction: SketchFunction): WritableImage {
         val canvas = document.createElement("canvas") as HTMLCanvasElement
         canvas.width = width.toInt()

@@ -18,6 +18,12 @@ interface SketchContext {
 
     fun point(x: Double, y: Double) = fillRect(x, y, 1.0, 1.0)
 
+    fun beginPath()
+
+    fun closePath()
+
+    fun bezierCurveTo(xc1: Double, yc1: Double, xc2: Double, yc2: Double, x1: Double, y1: Double)
+
     fun matrix(action: () -> Unit){
         save()
         action.invoke()

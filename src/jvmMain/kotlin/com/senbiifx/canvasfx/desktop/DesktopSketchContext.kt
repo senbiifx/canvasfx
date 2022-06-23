@@ -59,6 +59,18 @@ class DesktopSketchContext(val g: GraphicsContext): SketchContext {
         g.scale(x, y)
     }
 
+    override fun beginPath() {
+        g.beginPath()
+    }
+
+    override fun closePath() {
+        g.closePath()
+    }
+
+    override fun bezierCurveTo(xc1: Double, yc1: Double, xc2: Double, yc2: Double, x1: Double, y1: Double) {
+        g.bezierCurveTo(xc1, yc1, xc2, yc2, x1, y1)
+    }
+
     override fun createGraphics(width: Double, height: Double, sketchFunction: SketchFunction): WritableImage {
         val canvas = Canvas(width, height)
         sketchFunction.invoke(DesktopSketchContext(canvas.graphicsContext2D))
